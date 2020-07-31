@@ -1,7 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Grid, TableContainer, Table, TableHead, TableRow, TableCell, TableBody,Paper, TextField,Radio, RadioGroup, FormControlLabel} from '@material-ui/core';
+import {Container, Grid, TableContainer, Table, TableHead, TableRow, TableCell, 
+        TableBody,Paper, TextField,Radio, RadioGroup, FormControlLabel, Accordion, 
+        AccordionSummary, AccordionDetails, Typography} 
+        from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import firebase from '../../Database/Connection';
 import moment from 'moment';
+
+import './style.scss';
 
 
 import Header from '../../Components/Header/Header';
@@ -10,6 +16,23 @@ const Ocorrencias = () => {
 
     const [ubs, setUbs] = useState('');
     const [data, setData] = useState(moment().format('L'));
+    const [tabelaProfissionais, setTabelaProfissionais] = useState([
+        {profissional: "Médico", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Enfermagem", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Téc. Enfermagem 1", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Téc. Enfermagem 2", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Dentista", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "ASB", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Administrativo 1", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Administrativo 2", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Serviços Gerais", nome: "", atendimentoNomal: "sim", justificativa: ""},
+        {profissional: "Vigilante", nome: "", atendimentoNomal: "sim", justificativa: ""},
+    ]);
+
+    const [tabelaTarde, setTabelaTarde] = useState(tabelaProfissionais);
+    const [tabelaNoite, setTabelaNoite] = useState(tabelaProfissionais);
+    const [observacaoTarde, setObservacaoTarde] = useState("");
+    const [observacaoNoite, setObservacaoNoite] = useState("");
 
     useEffect(()=>{
         firebase.auth.onAuthStateChanged((logged) => {
@@ -22,6 +45,30 @@ const Ocorrencias = () => {
             }
           })
     },[])
+
+    const handleChangeField = (index,turno) => e => {
+        e.preventDefault();
+        let valor = e.target.value;
+        let campo = e.target.id;
+
+        if(turno === "Tarde"){
+            let handleTabela = [...tabelaTarde];
+            handleTabela[index][campo] = valor;
+            setTabelaTarde(handleTabela);
+            console.log("Executou, agora podendo.");
+        }else{
+            let handleTabela = [...tabelaNoite];
+            handleTabela[index][campo] = valor;
+            setTabelaNoite(handleTabela);
+        }        
+    }
+
+    const handleSetObservacao = (turno) => e => {
+        e.preventDefault();
+        let valor = e.target.value;
+        turno === "Tarde" ? setObservacaoTarde(valor) : setObservacaoNoite(valor);
+        console.log("Executou, sem poder.");
+    }
 
     return(
         <>
@@ -44,244 +91,135 @@ const Ocorrencias = () => {
                 <Grid item xs={4}>
                     <h1>Turno: <span>Tarde</span></h1> 
                 </Grid>
-
+                
                 <Grid item xs={12}>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
-                        <TableHead className="tableHead">
-                            <TableRow>
-                                <TableCell className="tableCell" align="left">Atendimento</TableCell>
-                                <TableCell className="tableCell" align="center">Nome do Profissional</TableCell>
-                                <TableCell className="tableCell" align="center">Atendimento Normal</TableCell>
-                                <TableCell className="tableCell" align="right">Jusrificativa</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Médico</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Enfermagem</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Téc. Enfermagem 1</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Téc. Enfermagem 2</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Odontologico</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>ASB</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Administrativo 1</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Administrativo 2</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Serviços Gerais</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Vigilante</TableCell>
-                                <TableCell> <TextField id="filled-basic" fullWidth variant="outlined" label="Nome do Profissional" /> </TableCell>
-                                <TableCell> 
-                                    <RadioGroup aria-label="gender" name="gender1"> 
-                                        {/* value={} onChange={} */}
-                                        <FormControlLabel value="female" control={<Radio />} label="Sim" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Não" />  
-                                    </RadioGroup>
-                                </TableCell>
-                                <TableCell>
-                                    <TextField xs={12}
-                                        id="outlined-multiline-static"
-                                        label="Observações"
-                                        multiline
-                                        fullWidth
-                                        rows={4}
-                                        variant="outlined"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                        </Table>
-                    </TableContainer>
+                <Accordion>
+                    <AccordionSummary className="acordeao-summary"
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>Turno da Tarde</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <TableContainer component={Paper}>
+                            <Table className="tableOcorrencias" aria-label="simple table">
+                                <TableHead className="tableHead">
+                                    <TableRow>
+                                        <TableCell className="tableCell" align="left">Atendimento</TableCell>
+                                        <TableCell className="tableCell" align="center">Nome do Profissional</TableCell>
+                                        <TableCell className="tableCell" align="center">Atendimento Normal</TableCell>
+                                        <TableCell className="tableCell" align="right">Justificativa</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {
+                                    tabelaProfissionais.map((profissional, index) => 
+                                    <TableRow key={index}>
+                                        <TableCell>{profissional.profissional}</TableCell>
+                                        <TableCell> 
+                                            <TextField fullWidth variant="outlined" label="Nome do Profissional" 
+                                                id="nome"
+                                                onBlur={handleChangeField(index,"Tarde")} 
+                                            /> 
+                                        </TableCell>
+                                        <TableCell> 
+                                            <RadioGroup className="atendimento-radio" aria-label="atdnml" name="atdmnl" 
+                                                id="atendimentoNormal"
+                                            
+                                                onChange={handleChangeField(index,"Tarde")}
+                                            > 
+                                                <FormControlLabel value="sim" control={<Radio />} label="Sim" />
+                                                <FormControlLabel value="não" control={<Radio />} label="Não" />  
+                                            </RadioGroup>
+                                        </TableCell>
+                                        <TableCell>
+                                            <TextField xs={12} label="Observações" multiline fullWidth rows={4} variant="outlined"
+                                                id="outlined-multiline-static"
+                                                onBlur={handleChangeField(index,"Tarde")}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                    )
+                                }
+                                    <TableRow>
+                                        <TableCell colSpan={4}>
+                                            <TextField xs={12} label="Observações" multiline fullWidth rows={4} variant="outlined"
+                                                id="observacoes"
+                                                onBlur={handleSetObservacao("Tarde")}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>                        
+                    </AccordionDetails>
+                </Accordion>
+
+                <Accordion>
+                    <AccordionSummary className="acordeao-summary"
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography>Turno da Noite</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <TableContainer component={Paper}>
+                            <Table className="tableOcorrencias" aria-label="simple table">
+                                <TableHead className="tableHead">
+                                    <TableRow>
+                                        <TableCell className="tableCell" align="left">Atendimento</TableCell>
+                                        <TableCell className="tableCell" align="center">Nome do Profissional</TableCell>
+                                        <TableCell className="tableCell" align="center">Atendimento Normal</TableCell>
+                                        <TableCell className="tableCell" align="right">Justificativa</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {
+                                    tabelaProfissionais.map((profissional, index) => 
+                                    <TableRow key={index}>
+                                        <TableCell>{profissional.profissional}</TableCell>
+                                        <TableCell> 
+                                            <TextField fullWidth variant="outlined" label="Nome do Profissional" 
+                                                id="nome"
+                                                onBlur={handleChangeField(index,"Tarde")} 
+                                            /> 
+                                        </TableCell>
+                                        <TableCell> 
+                                            <RadioGroup className="atendimento-radio" aria-label="atdnml" name="atdmnl" 
+                                                id="atendimentoNormal"
+                                            
+                                                onChange={handleChangeField(index,"Tarde")}
+                                            > 
+                                                <FormControlLabel value="sim" control={<Radio />} label="Sim" />
+                                                <FormControlLabel value="não" control={<Radio />} label="Não" />  
+                                            </RadioGroup>
+                                        </TableCell>
+                                        <TableCell>
+                                            <TextField xs={12} label="Observações" multiline fullWidth rows={4} variant="outlined"
+                                                id="outlined-multiline-static"
+                                                onBlur={handleChangeField(index,"Tarde")}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                    )
+                                }
+                                    <TableRow>
+                                        <TableCell colSpan={4}>
+                                            <TextField xs={12} label="Observações" multiline fullWidth rows={4} variant="outlined"
+                                                id="observacoes"
+                                                onBlur={handleSetObservacao("Tarde")}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </TableContainer>                        
+                    </AccordionDetails>
+                </Accordion>
                 </Grid>
 
-                <Grid item xs={12}>
-                    <TextField xs={12}
-                        id="outlined-multiline-static"
-                        label="Observações"
-                        multiline
-                        fullWidth
-                        rows={4}
-                        variant="outlined"
-                    />
-                </Grid>
             </Grid>
 
         </Container>

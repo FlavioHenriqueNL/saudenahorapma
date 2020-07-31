@@ -25,14 +25,14 @@ const TabelaAtendimento  = ({lista}) => {
       </TableHead>
       <TableBody>
         {lista.map(row => (
-          <TableRow key={row.key}>
+          <TableRow key={row.id}>
             
             <TableCell align="left">{row.nome}</TableCell>
             <TableCell align="right">{row.procedencia}</TableCell>
             <TableCell align="right">{row.motivo}</TableCell>
             <TableCell align="right">{row.atendimento}</TableCell>
             <TableCell align="right">
-              <Button color="secondary" variant="contained" onClick={() => excluirAtendimento(row.key)}>Excluir</Button>
+              <Button color="secondary" variant="contained" onClick={() => excluirAtendimento(row.id)}>Excluir</Button>
             </TableCell>
           </TableRow>
         ))}

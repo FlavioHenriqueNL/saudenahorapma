@@ -26,7 +26,7 @@ const Tabela = () => {
   },[]);
 
   useEffect(()=>{
-    firebase.db.collection('atendimentos').where("ubs",'==',ubs).get().then(
+    firebase.db.collection('atendimentos').where("ubs",'==',ubs).where("dataAtendimento", '==', moment().format('L')).get().then(
       snap => {
         let handleAtendimentos = [];
         snap.forEach(atendimento=>{
@@ -43,7 +43,7 @@ const Tabela = () => {
         return setAtendimentos(handleAtendimentos);
       }
     );
-  },[atendimentos, setAtendimentos]);
+  },[atendimentos, setAtendimentos, ubs]);
 
   return(
     <>

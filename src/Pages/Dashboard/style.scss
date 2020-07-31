@@ -1,0 +1,43 @@
+.titulo,.ubs{
+  h1{
+    font-size: 45px;
+    margin-bottom: 0;
+    color: #1C5A94;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  h2{
+    margin-top: 0;
+    color: #1C5A94;
+    font-size: 24px;
+    span{
+      color: #009C77;
+    }
+  }
+}
+.ubs{
+  text-align: right;
+  h1{
+    font-size: 25px;
+  }
+  h2{
+    color: #009C77;
+  }
+}
+.link-box{
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 25px;
+  display: block;
+  background: #009C77;
+  height: 150px;
+  border-radius: 15px;
+  transition: background 0.5s;
+  &:hover{
+    background: darken(#009C77,10%);
+  }
+}

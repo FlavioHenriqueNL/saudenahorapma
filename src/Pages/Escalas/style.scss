@@ -1,0 +1,26 @@
+.acordeao{
+  color: #fff !important;
+  margin-bottom: 25px !important;
+  .acordeao-summary{
+    background: #2b2e83 !important;
+    svg{
+      color: #fff !important;
+    }
+  }
+}
+
+
+#tabelaEscala{
+  margin-bottom: 20px;
+  .tableHead{
+    .tableCell{
+      &:first-child{
+        text-align: left;
+      }
+      text-align: center;
+    }
+  }
+}
+.btn-escala{
+  float: right;
+}

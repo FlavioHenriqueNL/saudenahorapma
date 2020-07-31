@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {Drawer, List, Divider, ListItem, ListItemText, IconButton} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import {Link} from 'react-router-dom';
 
 export default function TemporaryDrawer() {
   const classes = useStyles();
@@ -27,8 +28,14 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
+        <ListItem button>
+         <Link to="/atendimentos">Atendimentos</Link>
+        </ListItem>
         <ListItem button onClick={() => alert("Funcionalidade em desenvolvimento")}>
-          <ListItemText>Adicionar Usuário</ListItemText>
+         <Link to="/escalas">Escalas</Link>
+        </ListItem>
+        <ListItem button onClick={() => alert("Funcionalidade em desenvolvimento")}>
+         <Link to="/ocorrencias">Ocorrências</Link>
         </ListItem>
       </List>
       {/* <List>

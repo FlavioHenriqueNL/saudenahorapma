@@ -7,6 +7,7 @@ import Login from '../Pages/Login';
 import Dashboard from '../Pages/Dashboard';
 import Atendimentos from '../Pages/Atendimentos';
 import Ocorrencias from '../Pages/Ocorrencias';
+import Escalas from '../Pages/Escalas';
 
 const RouterNavigation = (props) =>{
 
@@ -16,6 +17,7 @@ const RouterNavigation = (props) =>{
         <Route exact authenticated={props.authenticated} path="/login" component={Login}/>
         <ProtectedRoute exact authenticated={props.authenticated} path="/" component={Dashboard}/>
         <ProtectedRoute exact authenticated={props.authenticated} path="/atendimentos" component={Atendimentos}/>
+        <ProtectedRoute exact authenticated={props.authenticated} path="/escalas" component={Escalas}/>
         <ProtectedRoute exact authenticated={props.authenticated} path="/ocorrencias" component={Ocorrencias}/>
       </Switch>
        

@@ -42,7 +42,7 @@ const AdcAtendimento = () => {
 
     const cadastrarAtendimento = (e) =>{
         e.preventDefault();
-        firebase.db.collection('teste').add({
+        firebase.db.collection('atendimentos').add({
             nomeFuncionario : nomeProfissional,
             ubs,
             nomePaciente,
@@ -50,7 +50,9 @@ const AdcAtendimento = () => {
             motivo,
             tipoAtendimento: atendimento,
             dataAtendimento: data
-        })
+        }).then(
+          alert("Inserido com sucesso.")        
+        ).catch(err => alert(err));
         e.target.reset();
     }
 

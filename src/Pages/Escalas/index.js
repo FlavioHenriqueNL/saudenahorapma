@@ -10,7 +10,6 @@ const Escalas = () => {
   const [ubs, getUbs] = useState("");
 
   useEffect(()=>{
-    alert(administrador);
   },[])
 
   return(
